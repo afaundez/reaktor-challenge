@@ -23,3 +23,23 @@ Original description:
 > - The Debian Policy Manual has a section entitled “Syntax of control files”. The input data conforms to that syntax.
 >
 > Try to write code as you usually would—the only extra constraint we’re imposing is that you use React for the UI. When reviewing your code, we’ll focus on maintainability and how well it communicates its intent.
+
+## My process
+
+First of all, I like to summarize what and how.
+
+### What
+
+Show a more current and constrained idea of how you think about writing code to solve problems.
+
+### How
+
+Web UI built with React that exposes information about the current packages installed in a Debian-like SO from the DPKG status file.
+
+#### Guidelines
+- Minimize the use of external dependencies.
+- Use common sense when evaluating dependencies, but err toward minimalism.
+- Focus on how you solve this problem with a programming language, not how well you use package managers.
+- To keep things simple, just look at the *Depends* field. You can ignore other fields that work similarly, such as *Suggests* and *Recommends*.
+- Sometimes there are alternates in a dependency list, separated by the pipe character `|`. When rendering such dependencies, you don’t need to make more information available for any package that isn’t present in the status file. For alternatives that aren’t present in the status file, it’s sufficient to show just their name.
+- The *Debian Policy Manual* has a section entitled [Syntax of control files](https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-controlsyntax). The input data conforms to that syntax.
