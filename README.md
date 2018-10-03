@@ -43,3 +43,9 @@ Web UI built with React that exposes information about the current packages inst
 - To keep things simple, just look at the *Depends* field. You can ignore other fields that work similarly, such as *Suggests* and *Recommends*.
 - Sometimes there are alternates in a dependency list, separated by the pipe character `|`. When rendering such dependencies, you don’t need to make more information available for any package that isn’t present in the status file. For alternatives that aren’t present in the status file, it’s sufficient to show just their name.
 - The *Debian Policy Manual* has a section entitled [Syntax of control files](https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-controlsyntax). The input data conforms to that syntax.
+
+### First approach
+
+I consider a good opening step to confirm that I have access to the DPKG information and display the information with the smallest configuration possible minimizing interactions, configurations, and files. In this case, I want to check if a simple HTML loading React from a script tag could display the DPKG data provided in the challenge.
+
+A small HTML/JS does the work, check [index.html](index.html).
