@@ -1,46 +1,45 @@
-const packages = packages => packages.map(pkg => (
-  <Package key={`section-paragraph-${pkg.Package}`}
-                    package={pkg}
-  />
-));
-
-const sections = groupedPackages => Object.entries(groupedPackages)
-  .map(([section, sectionPackages]) => (
-    <section key={`section-${section}`}>
-      <h2>{`Section: ${section}`}</h2>
-      {packages(sectionPackages)}
-    </section>
+const PackagesSuggestions = props => {
+  if (props.suggested.length == 0) return [];
+  const suggested = props.suggested.map(suggestion => (
+    <li key={'suggestion-' + suggestion}>
+      <a href={ `#${suggestion}`}>{suggestion}</a>
+    </li>
   ));
+  return <ul><li>Suggestions: </li>{suggested}</ul>;
+}
 
 class DPKGControlData extends React.Component {
   constructor(props) {
     super(props);
+    this.onSearchResultsChange = this.onSearchResultsChange.bind(this);
     this.state = {
-      packagesBySection: {},
-      query: ''
+      packages: [],
+      selected: []
     };
   }
-
-  handleInputChange = () => {
-     this.setState({
-       query: this.search.value
-     })
-   }
 
   componentDidMount() {
     fetch(this.props.controlFile)
       .then(response => response.text())
-      .then(data => this.setState({packagesBySection: DPKG.parse(data) }));
+      .then(data => this.setState({ packages: DPKG.parse(data) }));
+  }
+
+  onSearchResultsChange(results) {
+    this.setState({selected: results});
   }
 
   render() {
-    const { packagesBySection } = this.state;
-    const packagesNames = Object.entries(packagesBySection).map(([k, v]) => v.map(p => p.Package)).flat();
     return (
       <section key='sections'>
         <h1>DPKG Status</h1>
-        <PackageSearch packagesNames={packagesNames} />
-        {sections(packagesBySection)}
+        <PackageSearch
+          packagesNames={DPKG.names(this.state.packages)}
+          onResultsChange={this.onSearchResultsChange}
+        />
+        <PackagesSuggestions suggested={this.state.selected} />
+        <Packages
+          packages={this.state.packages.filter(pkg => this.state.selected.includes(pkg.Package))}
+        />
       </section>
     );
   }

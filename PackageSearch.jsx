@@ -1,49 +1,37 @@
-const PackageSuggestions = props => {
-  const options = props.results.map(result => (
-    <a key={'suggestion-' + result} href={ `#${result}`}>{result}</a>
-  ));
-  return <p>{options}</p>;
-}
-
 class PackageSearch extends React.Component {
-  state = {
-    values: [],
-    query: '',
-    results: []
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = { query: '', packages: [] };
   }
 
-  getInfo = () => {
-    this.setState({
-      results: this.state.values.filter(value => value && value.match(this.state.query))
-    });
-  }
+  searchPackages = () => {
+    let results = [];
+    if (this.state.query && this.state.query.length > 2) {
+      results = this.state.packages.filter(value =>
+        value && value.match(this.state.query)
+      );
+    }
+    this.props.onResultsChange(results);
+  };
 
-  handleInputChange = () => {
-    this.setState({
-      query: this.search.value
-    }, () => {
-      if (this.state.query && this.state.query.length > 2) {
-        this.getInfo();
-      } else if (!this.state.query) {
-      }
-    })
-  }
+  handleChange = (event) => this.setState(
+    { query: event.target.value },
+    () => this.searchPackages()
+  );
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      values: nextProps.packagesNames
+      packages: nextProps.packagesNames
     });
   }
 
   render() {
     return (
-      <form>
-        <input
-          placeholder='Search for packages...'
-          ref={input => this.search = input}
-          onChange={this.handleInputChange} />
-        <PackageSuggestions results={this.state.results} />
-      </form>
+      <fieldset>
+        <legend>Search for packages</legend>
+        <input onChange={this.handleChange} />
+      </fieldset>
     );
   }
 }

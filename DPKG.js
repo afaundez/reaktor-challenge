@@ -31,13 +31,19 @@ const groupBySection = (accumulator, currentValue, currentIndex, array) => {
 class DPKG {
   static parse(RawText) {
     const rawParagraphs = RawText.split(/(?:\s+\r\n|\r|\n){2}/);
-    const paragraphs = rawParagraphs.map(rawParagraph => {
+    return rawParagraphs.map(rawParagraph => {
       const dataFieldSplitter = /((?:^|\r\n|\r|\n)[\w\-]+)\:\s/;
       const paragraphsParts = rawParagraph.split(dataFieldSplitter)
       .filter(Boolean);
       return paragraphsParts.reduce(mapDataFields, {});
     });
-    const dpkg = paragraphs.reduce(groupBySection, {});
-    return dpkg;
+  }
+
+  static bySection(packages) {
+    return packages.reduce(groupBySection, {});
+  }
+
+  static names(packages) {
+    return packages.map(pkg => pkg.Package);
   }
 }

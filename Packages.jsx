@@ -30,12 +30,34 @@ const dependencies = (pkg, prefixKey) =>
 class Package extends React.Component {
   render() {
     const pkg = this.props.package;
-    const articleKey = `package-${pkg.Package}`;
     return (
-      <article key={articleKey}>
-        <h3 id={pkg.Package}>{`Package: ${pkg.Package}`}</h3>
-        <dl>{dependencies(pkg, articleKey)}</dl>
+      <article key={pkg.Package} id={pkg.Package}>
+        <h3>{pkg.Package}</h3>
+        <dl>{dependencies(pkg, pkg.Package)}</dl>
       </article>
+    );
+  }
+}
+
+class Packages extends React.Component {
+  state = {
+    packages: []
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({ packages: newProps.packages });
+  }
+
+  render() {
+    return(
+      <section className='packages'>
+        {this.state.packages.map(pkg => (
+          <Package
+            key={`Package ${pkg.Package}`}
+            package={pkg}
+          />
+        ))}
+      </section>
     );
   }
 }

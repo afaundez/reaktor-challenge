@@ -9,9 +9,10 @@ http.createServer( (req, res) => {
   let pathname = `.${parsedUrl.pathname}`;
   const ext = path.parse(pathname).ext;
   const map = {
+    '.css': 'text/css',
+    '.jsx': 'text/jsx',
     '.html': 'text/html',
-    '.js': 'text/javascript',
-    '.jsx': 'text/jsx'
+    '.js': 'text/javascript'
   };
   fs.exists(pathname, exist => {
     if(!exist) {
