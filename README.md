@@ -48,4 +48,16 @@ Web UI built with React that exposes information about the current packages inst
 
 I consider a good opening step to confirm that I have access to the DPKG information and display the information with the smallest configuration possible minimizing interactions, configurations, and files. In this case, I want to check if a simple HTML loading React from a script tag could display the DPKG data provided in the challenge.
 
-A small HTML/JS does the work, check [index.html](index.html).
+A small HTML/JS does the work, check [index.html](https://github.com/afaundez/reaktor-challenge/blob/16ef80fbac705f34a3aa41605b2360c1dee77cdf/index.html).
+
+#### 1st iteration
+
+Now, I would parse the data, since it's a huge text file. Since the file is going to grow, it's time to separate the KS from the HTML. At the end at this step I would like to have a clear semantic tree.
+
+Making a semantic version, brings a few concern:
+- The documentations mention the data in the file as ControlData, composed by one or more paragraphs (packages) and each paragraph containing multiple data fields, each one formed by a field name and a field value. An annoying issue with this is that package is a reserved word in Javascript, no for the moment I leave it a paragraph.
+- The more complicated the data structures, the messier the React elements and the javascript file.
+
+The dependency packages links are simple anchors pointing paragraphs id, they jump to the heading with the id marked. It helps to navigate, but usually you get stuck there.
+
+At this point, the main part is at [scripts.js](scripts.js).

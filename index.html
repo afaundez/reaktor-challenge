@@ -9,30 +9,6 @@
     </main>
     <script src='https://unpkg.com/react@16/umd/react.development.js' crossorigin></script>
     <script src='https://unpkg.com/react-dom@16/umd/react-dom.development.js' crossorigin></script>
-    <script type='text/javascript'>
-      class Status extends React.Component {
-        constructor(props) {
-          super(props);
-          this.state = { packages: [] };
-        }
-        componentDidMount() {
-          fetch(this.props.statusURL)
-            .then(response => response.text())
-            .then(data => this.setState({ packages: [data] }));
-        }
-        render() {
-          const { packages } = this.state;
-          return React.createElement('pre', null, packages);
-        }
-      }
-      ReactDOM.render(
-        React.createElement(Status, {
-          statusURL: 'https://gist.githubusercontent.com/lauripiispanen/' +
-                      '29735158335170c27297422a22b48caa/raw/61a0f1150f33a1f31' +
-                      '510b8e3a70cbac970892b2f/status.real'
-        }, null),
-        document.getElementById('root')
-      );
-    </script>
+    <script src='script.js'></script>
   </body>
 </html>
