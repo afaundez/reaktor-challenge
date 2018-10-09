@@ -61,3 +61,15 @@ Making a semantic version, brings a few concern:
 The dependency packages links are simple anchors pointing paragraphs id, they jump to the heading with the id marked. It helps to navigate, but usually you get stuck there.
 
 At this point, the main part is at [scripts.js](scripts.js).
+
+### Next approach: better access
+
+Display all the packages doesn't make sense, too much information, even if we split by Section. My approaches to dpkg in the past have involved search packages, usually involving listing and grep values. I would like to have the ability to search.
+
+It would be nice from now on, be able to use JSX to define the React UI, so I will try to get babel working in browser mode.
+
+It works on the browser, but it the JS file needs to be served, so I added a small node server for JS and HTML files.
+
+Refactoring the code to JSX syntax and splitting it into more files, the code got cleaner. It's time to add a search bar.
+
+The search bar is a new React component, and show suggestions based on the packages name.
