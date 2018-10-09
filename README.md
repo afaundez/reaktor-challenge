@@ -73,3 +73,7 @@ It works on the browser, but it the JS file needs to be served, so I added a sma
 Refactoring the code to JSX syntax and splitting it into more files, the code got cleaner. It's time to add a search bar.
 
 The search bar is a new React component, and show suggestions based on the packages name.
+
+### Next Step: Style
+
+It's moment to add a little bit of style to appreciate the data in a better way

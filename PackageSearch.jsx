@@ -1,11 +1,11 @@
-const Suggestions = props => {
+const PackageSuggestions = props => {
   const options = props.results.map(result => (
     <a key={'suggestion-' + result} href={ `#${result}`}>{result}</a>
   ));
   return <p>{options}</p>;
 }
 
-class ParagraphSearch extends React.Component {
+class PackageSearch extends React.Component {
   state = {
     values: [],
     query: '',
@@ -42,7 +42,7 @@ class ParagraphSearch extends React.Component {
           placeholder='Search for packages...'
           ref={input => this.search = input}
           onChange={this.handleInputChange} />
-        <Suggestions results={this.state.results} />
+        <PackageSuggestions results={this.state.results} />
       </form>
     );
   }
