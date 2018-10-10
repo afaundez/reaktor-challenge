@@ -1,20 +1,3 @@
-const PackagesSuggestions = props => {
-  if (props.suggested.length == 0) return [];
-  const suggested = props.suggested.map(suggestion => (
-    <li key={'suggestion-' + suggestion}>
-      <a href={ `#${suggestion}`}>{suggestion}</a>
-    </li>
-  ));
-  return (
-    <nav className='suggestions'>
-      <ul>
-        <li>Suggestions: </li>
-        {suggested}
-      </ul>
-    </nav>
-  );
-}
-
 class DPKGControlData extends React.Component {
   constructor(props) {
     super(props);
@@ -82,4 +65,21 @@ class DPKGControlData extends React.Component {
       </section>
     );
   }
+}
+
+const PackagesSuggestions = props => {
+  if (props.suggested.length == 0) return [];
+  const suggested = props.suggested.map(suggestion => (
+    <li key={'suggestion-' + suggestion}>
+      <a href={ `#${suggestion}`}>{suggestion}</a>
+    </li>
+  ));
+  return (
+    <nav className='suggestions'>
+      <ul>
+        <li>Suggestions: </li>
+        {suggested}
+      </ul>
+    </nav>
+  );
 }

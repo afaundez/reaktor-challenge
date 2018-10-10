@@ -1,3 +1,35 @@
+class Package extends React.Component {
+  render() {
+    const pkg = this.props.package;
+    const history = this.props.history;
+    let backButton;
+    if(history.includes(pkg.id)){
+      const pos = history.lastIndexOf(pkg.id);
+      if(pos != 0) {
+        const packageId = history[pos - 1];
+        const isAvailable = Object.keys(this.props.packages)
+          .includes(packageId);
+        backButton = (
+          <a
+            href={ '#' + packageId}
+            data-direction='back'
+            data-back={packageId}
+            onClick={this.props.onPackageLink} data-available={isAvailable}>
+            {'< ' + packageId}
+          </a>
+        );
+      }
+    }
+    return (
+      <article key={pkg.id} id={pkg.id}>
+        <nav>{backButton}</nav>
+        <h3>{pkg.id}</h3>
+        <dl>{dependencies(pkg, pkg.id, this.props)}</dl>
+      </article>
+    );
+  }
+}
+
 const splitDependencies = (fieldName, fieldValue, keyPrefix, props) => {
   let value;
   switch (fieldName) {
@@ -51,35 +83,3 @@ const dependencies = (pkg, prefixKey, props) => {
     dependency(fieldName, pkg[fieldName], prefixKey, props)
   );
 };
-
-class Package extends React.Component {
-  render() {
-    const pkg = this.props.package;
-    const history = this.props.history;
-    let backButton;
-    if(history.includes(pkg.id)){
-      const pos = history.lastIndexOf(pkg.id);
-      if(pos != 0) {
-        const packageId = history[pos - 1];
-        const isAvailable = Object.keys(this.props.packages)
-          .includes(packageId);
-        backButton = (
-          <a
-            href={ '#' + packageId}
-            data-direction='back'
-            data-back={packageId}
-            onClick={this.props.onPackageLink} data-available={isAvailable}>
-            {'< ' + packageId}
-          </a>
-        );
-      }
-    }
-    return (
-      <article key={pkg.id} id={pkg.id}>
-        <nav>{backButton}</nav>
-        <h3>{pkg.id}</h3>
-        <dl>{dependencies(pkg, pkg.id, this.props)}</dl>
-      </article>
-    );
-  }
-}

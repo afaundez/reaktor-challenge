@@ -1,26 +1,3 @@
-const DPKG_CONTROL_FILE_URL = 'https://gist.githubusercontent.com' +
-'/lauripiispanen/29735158335170c27297422a22b48caa/raw' +
-'/61a0f1150f33a1f31510b8e3a70cbac970892b2f/status.real';
-
-const mapDataFields = (accumulator, currentValue, currentIndex, array) => {
-  if(currentIndex % 2 == 0){
-    const fieldName = currentValue.trim();
-    const rawValue = array[currentIndex + 1].trim();
-    let fieldValue = rawValue;
-    switch (fieldName) {
-    case 'Needed By':
-    case 'Depends':
-      fieldValue = rawValue.split(/,\s/).map(dependency => {
-        const [dependencyPackageName, ...version] = dependency.split(/\s+/);
-        return [dependencyPackageName, version.join(' ')];
-      });
-      break;
-    }
-    accumulator[fieldName] = fieldValue;
-  }
-  return accumulator;
-};
-
 class DPKG {
   static url() {
     return DPKG_CONTROL_FILE_URL;
@@ -74,3 +51,26 @@ class DPKG {
     }, {});
   }
 }
+
+const DPKG_CONTROL_FILE_URL = 'https://gist.githubusercontent.com' +
+  '/lauripiispanen/29735158335170c27297422a22b48caa/raw' +
+  '/61a0f1150f33a1f31510b8e3a70cbac970892b2f/status.real';
+
+const mapDataFields = (accumulator, currentValue, currentIndex, array) => {
+  if(currentIndex % 2 == 0){
+    const fieldName = currentValue.trim();
+    const rawValue = array[currentIndex + 1].trim();
+    let fieldValue = rawValue;
+    switch (fieldName) {
+    case 'Needed By':
+    case 'Depends':
+      fieldValue = rawValue.split(/,\s/).map(dependency => {
+        const [dependencyPackageName, ...version] = dependency.split(/\s+/);
+        return [dependencyPackageName, version.join(' ')];
+      });
+      break;
+    }
+    accumulator[fieldName] = fieldValue;
+  }
+  return accumulator;
+};
