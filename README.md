@@ -1,5 +1,23 @@
 # reaktor-challenge
 
+## Usage
+
+As requested, I minimize the use of this code is a web UI developed with Reactor, using the minimum of dependencies. Basically the code is pure JSX, HTMl, CSS and pure JS.
+
+The application run with a small server provided, just run `node server.js` and check localhost:9000/index.html. It only serves static files, specifically the JSX, JS and CSS files requested by the index.html. The server is required only because the use of JSX. I started developing without it, but the code got too complex. Since the browser does not understand, I added [babel](https://babeljs.io) for the translation to JS. I considered that this dependency wasn't taking important part of the assignment.
+
+About, the UI itself. I had a lot of questions, that for the terms of the challenge, I had to resolve on my own. Things like *Why somebody want to display this data?*, *What would you do with this information?*. I have to choose something, so I remembered my few interactions with DPKG in the past, that were basically to install a package outside the package manager (apt) or check if the packaged, if installed.
+
+With the last answer, I focused in implement a package search, since it's to much data to see in a browser. You can write, the app will match and display. Then, viewing the dependencies, who depends on a package and the packages depending on it, if you select one, you will go to it. And on it, you will have a link to go back, like a browser history.
+
+I know that show all the packages was part of the requirements, but I choose the search bar for UI simplicity and accessibility. The are too many items to be displayed, that you'll probably need to use the browser's find in order to get what you are looking for.
+
+### Conclusion
+
+I didn't have use React seriously before, so it was a good challenge. And since I limit myself to not use external dependencies, I liked to write a small server and app with the minimum requirements to do a React App. Today it's too easy to rely in other tools, sometimes adding too much unnecessary code to a prototype.
+
+## The challenge
+
 Original description:
 
 > On a Debian or an Ubuntu system, there is a file called /var/lib/dpkg/status that holds information about software packages that the system knows about. Here’s a sample file (you can use this as input for the program we’ll describe): https://gist.github.com/lauripiispanen/29735158335170c27297422a22b48caa
@@ -77,3 +95,11 @@ The search bar is a new React component, and show suggestions based on the packa
 ### Next Step: Style
 
 It's moment to add a little bit of style to appreciate the data in a better way.
+
+### Next Step: Interaction
+
+Since interaction is only between packages in the control file, I'm going to implement a browsing history, adding a back button every time a package is accessed from another package.
+
+### Next: Clean up
+
+The file are grown a bit, so I'll start splitting files, and reviewing coding style. I will document also how to use.
