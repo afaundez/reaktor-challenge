@@ -3,7 +3,7 @@ const url = require('url');
 const fs = require('fs');
 const path = require('path');
 const port = 9000;
-http.createServer( (req, res) => {
+http.createServer((req, res) => {
   console.log(`${req.method} ${req.url}`);
   const parsedUrl = url.parse(req.url);
   let pathname = `.${parsedUrl.pathname}`;
@@ -15,13 +15,13 @@ http.createServer( (req, res) => {
     '.js': 'text/javascript'
   };
   fs.exists(pathname, exist => {
-    if(!exist) {
+    if (!exist) {
       res.statusCode = 404;
       res.end(`File ${pathname} not found!`);
       return;
     }
     fs.readFile(pathname, (err, data) => {
-      if(err){
+      if (err) {
         res.statusCode = 500;
         res.end(`Error getting the file: ${err}.`);
       } else {
