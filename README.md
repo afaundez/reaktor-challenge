@@ -2,19 +2,19 @@
 
 ## Usage
 
-As requested, I minimize the use of this code is a web UI developed with Reactor, using the minimum of dependencies. Basically the code is pure JSX, HTMl, CSS and pure JS.
+As requested, I minimize the use of this code is a web UI developed with Reactor, using the minimum of dependencies. Basically, the code is pure JSX, HTMl, CSS and pure JS.
 
-The application run with a small server provided, just run `node server.js` and check localhost:9000/index.html. It only serves static files, specifically the JSX, JS and CSS files requested by the index.html. The server is required only because the use of JSX. I started developing without it, but the code got too complex. Since the browser does not understand, I added [babel](https://babeljs.io) for the translation to JS. I considered that this dependency wasn't taking important part of the assignment.
+The application run with a small server provided, just run `node server.js` and check localhost:9000/index.html. It only serves static files, specifically the JSX, JS and CSS files requested by the index.html. The server is required only because of the use of JSX. I started developing without it, but the code got too complex. Since the browser does not understand, I added [babel](https://babeljs.io) for the translation to JS. I considered that this dependency wasn't taking an important part of the assignment.
 
-About, the UI itself. I had a lot of questions, that for the terms of the challenge, I had to resolve on my own. Things like *Why somebody want to display this data?*, *What would you do with this information?*. I have to choose something, so I remembered my few interactions with DPKG in the past, that were basically to install a package outside the package manager (apt) or check if the packaged, if installed.
+About, the UI itself. I had a lot of questions, that for the terms of the challenge, I had to resolve on my own. Things like *Why somebody wants to display this data?*, *What would you do with this information?*. I have to choose something, so I remembered my few interactions with DPKG in the past, that was basically to install a package outside the package manager (apt) or check if the package is installed.
 
-With the last answer, I focused in implement a package search, since it's to much data to see in a browser. You can write, the app will match and display. Then, viewing the dependencies, who depends on a package and the packages depending on it, if you select one, you will go to it. And on it, you will have a link to go back, like a browser history.
+With the last answer, I focused on implement a package search, since it's too much data to see in a browser. You can write, the app will match and display. Then, viewing the dependencies, who depends on a package and the packages depending on it, if you select one, you will go to it. And on it, you will have a link to go back, like a browser history.
 
-I know that show all the packages was part of the requirements, but I choose the search bar for UI simplicity and accessibility. The are too many items to be displayed, that you'll probably need to use the browser's find in order to get what you are looking for.
+I know that showing all the packages is part of the requirements, but I choose the search bar for UI simplicity and accessibility. They are too many items to be displayed, that you'll probably need to use the browser's find in order to get what you are looking for.
 
 ### Conclusion
 
-I didn't have use React seriously before, so it was a good challenge. And since I limit myself to not use external dependencies, I liked to write a small server and app with the minimum requirements to do a React App. Today it's too easy to rely in other tools, sometimes adding too much unnecessary code to a prototype.
+I didn't have use React seriously before, so it was a good challenge. And since I limit myself to not use external dependencies, I liked to write a small server and app with the minimum requirements to do a React App. Today it's too easy to rely on other tools, sometimes adding too much unnecessary code to a prototype.
 
 ## The challenge
 
@@ -70,13 +70,13 @@ A small HTML/JS does the work, check [index.html](https://github.com/afaundez/re
 
 #### 1st iteration
 
-Now, I would parse the data, since it's a huge text file. Since the file is going to grow, it's time to separate the KS from the HTML. At the end at this step I would like to have a clear semantic tree.
+Now, I would parse the data, since it's a huge text file. Since the file is going to grow, it's time to separate the KS from the HTML. At the end of this step, I would like to have a clear semantic tree.
 
 Making a semantic version, brings a few concern:
-- The documentations mention the data in the file as ControlData, composed by one or more paragraphs (packages) and each paragraph containing multiple data fields, each one formed by a field name and a field value. An annoying issue with this is that package is a reserved word in Javascript, no for the moment I leave it a paragraph.
+- The documentation mentions the data in the file as ControlData, composed by one or more paragraphs (packages) and each paragraph containing multiple data fields, each one formed by a field name and a field value. An annoying issue with this is that package is a reserved word in Javascript, no for the moment I leave it a paragraph.
 - The more complicated the data structures, the messier the React elements and the javascript file.
 
-The dependency packages links are simple anchors pointing paragraphs id, they jump to the heading with the id marked. It helps to navigate, but usually you get stuck there.
+The dependency packages links are simple anchors pointing paragraphs id, they jump to the heading with the id marked. It helps to navigate, but usually, you get stuck there.
 
 At this point, the main part is at [scripts.js](scripts.js).
 
@@ -84,7 +84,7 @@ At this point, the main part is at [scripts.js](scripts.js).
 
 Display all the packages doesn't make sense, too much information, even if we split by Section. My approaches to dpkg in the past have involved search packages, usually involving listing and grep values. I would like to have the ability to search.
 
-It would be nice from now on, be able to use JSX to define the React UI, so I will try to get babel working in browser mode.
+It would be nice from now on, be able to use JSX to define the React UI so I will try to get babel working in browser mode.
 
 It works on the browser, but it the JS file needs to be served, so I added a small node server for JS and HTML files.
 
@@ -102,4 +102,4 @@ Since interaction is only between packages in the control file, I'm going to imp
 
 ### Next: Clean up
 
-The file are grown a bit, so I'll start splitting files, and reviewing coding style. I will document also how to use.
+The files are grown a bit, so I'll start splitting files and reviewing coding style. I will document also how to use.
