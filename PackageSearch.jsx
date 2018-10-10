@@ -30,7 +30,7 @@ class PackageSearch extends React.Component {
     return (
       <fieldset className='package-search'>
         <legend>Search for packages</legend>
-        <input onChange={this.handleChange} />
+        <input onChange={this.handleChange} autoFocus/>
       </fieldset>
     );
   }
