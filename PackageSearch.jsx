@@ -28,7 +28,7 @@ class PackageSearch extends React.Component {
 
   render() {
     return (
-      <fieldset>
+      <fieldset className='package-search'>
         <legend>Search for packages</legend>
         <input onChange={this.handleChange} />
       </fieldset>

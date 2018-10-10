@@ -4,12 +4,13 @@ const splitDependencies = (fieldName, fieldValue) => {
     case 'Depends':
     value = fieldValue.map(([dependency, version]) => {
       return (
-        <React.Fragment key={dependency + version}>
+        <li key={dependency + version}>
           <a href={ '#' + dependency}>{dependency}</a>
           { ' ' + version}
-        </React.Fragment>
+        </li>
       );
-    }).reduce((prev, curr) => [prev, ', ', curr]);
+    });
+    value = (<nav className='dependencies'><ul>{value}</ul></nav>);
     break;
   };
   return value;
@@ -23,9 +24,11 @@ const dependency = (fieldName, fieldValue, keyPrefix) => (
 );
 
 const dependencies = (pkg, prefixKey) =>
-  Object.entries(pkg).map(([fieldName, fieldValue]) =>
-    dependency(fieldName, fieldValue, prefixKey)
-  );
+  Object.entries(pkg).map(([fieldName, fieldValue]) => {
+    if (['Status', 'Section', 'Depends'].includes(fieldName)){
+      return dependency(fieldName, fieldValue, prefixKey);
+    }
+  });
 
 class Package extends React.Component {
   render() {

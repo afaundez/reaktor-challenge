@@ -5,7 +5,14 @@ const PackagesSuggestions = props => {
       <a href={ `#${suggestion}`}>{suggestion}</a>
     </li>
   ));
-  return <ul><li>Suggestions: </li>{suggested}</ul>;
+  return (
+    <nav className='suggestions'>
+      <ul>
+        <li>Suggestions: </li>
+        {suggested}
+      </ul>
+    </nav>
+  );
 }
 
 class DPKGControlData extends React.Component {

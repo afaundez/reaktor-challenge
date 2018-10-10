@@ -76,4 +76,4 @@ The search bar is a new React component, and show suggestions based on the packa
 
 ### Next Step: Style
 
-It's moment to add a little bit of style to appreciate the data in a better way
+It's moment to add a little bit of style to appreciate the data in a better way.
