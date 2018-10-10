@@ -20,8 +20,10 @@ class DPKGControlData extends React.Component {
     super(props);
     this.onSearchResultsChange = this.onSearchResultsChange.bind(this);
     this.state = {
-      packages: [],
-      selected: []
+      packages: {},
+      suggestions: [],
+      history: [],
+      available: []
     };
   }
 
@@ -31,8 +33,35 @@ class DPKGControlData extends React.Component {
       .then(data => this.setState({ packages: DPKG.parse(data) }));
   }
 
-  onSearchResultsChange(results) {
-    this.setState({selected: results});
+  onSearchResultsChange(suggestions) {
+    this.setState({history: []});
+    this.setState({suggestions: suggestions});
+    this.setState({available: suggestions});
+  }
+
+  onPackageLink(event) {
+    let newHistory = this.state.history;
+    const target = event.target;
+    const origin = target.closest('article').id;
+    switch (target.dataset.direction) {
+      case 'forward':
+        if (newHistory.length == 0) {
+          newHistory.push(origin);
+        }
+        newHistory.push(target.dataset.next);
+        break
+      case 'back':
+        newHistory.splice(newHistory.lastIndexOf(origin), 1);
+        if (newHistory.length == 1 && newHistory[0] == target.dataset.back){
+          newHistory = [];
+        }
+        break;
+    }
+    this.setState(prevState => ({
+      history: newHistory,
+      available: [...prevState.suggestions, ...newHistory]
+    }));
+    return true;
   }
 
   render() {
@@ -43,9 +72,12 @@ class DPKGControlData extends React.Component {
           packagesNames={DPKG.names(this.state.packages)}
           onResultsChange={this.onSearchResultsChange}
         />
-        <PackagesSuggestions suggested={this.state.selected} />
+      <PackagesSuggestions suggested={this.state.suggestions} />
         <Packages
-          packages={this.state.packages.filter(pkg => this.state.selected.includes(pkg.Package))}
+          packages={DPKG.filter(this.state.packages, this.state.available)}
+          packagesAvailable={DPKG.names(this.state.packages)}
+          history={this.state.history}
+          onPackageLink={this.onPackageLink.bind(this)}
         />
       </section>
     );

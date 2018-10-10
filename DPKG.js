@@ -8,42 +8,69 @@ const mapDataFields = (accumulator, currentValue, currentIndex, array) => {
     const rawValue = array[currentIndex + 1].trim();
     let fieldValue = rawValue;
     switch (fieldName) {
-      case 'Depends':
-        fieldValue = rawValue.split(/\,\s/).map(dependency => {
-          const [dependencyPackageName, ...version] = dependency.split(/\s+/);
-          return [dependencyPackageName, version.join(' ')];
-        })
-        break;
-    };
+    case 'Needed By':
+    case 'Depends':
+      fieldValue = rawValue.split(/,\s/).map(dependency => {
+        const [dependencyPackageName, ...version] = dependency.split(/\s+/);
+        return [dependencyPackageName, version.join(' ')];
+      });
+      break;
+    }
     accumulator[fieldName] = fieldValue;
   }
   return accumulator;
 };
 
-const groupBySection = (accumulator, currentValue, currentIndex, array) => {
-  if(!Object.keys(accumulator).includes(currentValue.Section)) {
-    accumulator[currentValue.Section] = [];
-  }
-  accumulator[currentValue.Section].push(currentValue);
-  return accumulator;
-};
-
 class DPKG {
+  static url() {
+    return DPKG_CONTROL_FILE_URL;
+  }
+
   static parse(RawText) {
     const rawParagraphs = RawText.split(/(?:\s+\r\n|\r|\n){2}/);
-    return rawParagraphs.map(rawParagraph => {
-      const dataFieldSplitter = /((?:^|\r\n|\r|\n)[\w\-]+)\:\s/;
-      const paragraphsParts = rawParagraph.split(dataFieldSplitter)
-      .filter(Boolean);
-      return paragraphsParts.reduce(mapDataFields, {});
-    });
+    let packages = rawParagraphs.reduce((accumulator, rawParagraph) => {
+      const dataFieldSplitter = /((?:^|\r\n|\r|\n)[\w-]+):\s/;
+      const dataFieldsParts = rawParagraph.split(dataFieldSplitter)
+        .filter(Boolean);
+      const dataFields = dataFieldsParts.reduce(mapDataFields, {});
+      dataFields['Needed By'] = [];
+      accumulator[dataFields['Package']] = dataFields;
+      return accumulator;
+    }, {});
+    packages = DPKG.enrich(packages);
+    return packages;
   }
 
-  static bySection(packages) {
-    return packages.reduce(groupBySection, {});
+  static enrich(packages) {
+    let enrichedPackages = packages;
+    for (let packageName in enrichedPackages) {
+      if (enrichedPackages.hasOwnProperty(packageName)) {
+        const pkg = enrichedPackages[packageName];
+        pkg.id = pkg.Package;
+        if ('Depends' in pkg) {
+          for (let [dependency, version] of pkg['Depends']) {
+            let neededPackage = enrichedPackages[dependency];
+            if (dependency in enrichedPackages &&
+              !neededPackage['Needed By'].includes([pkg.Package, pkg.Version])){
+              neededPackage['Needed By'].push([pkg.Package, version]);
+            }
+          }
+        }
+      }
+    }
+    return enrichedPackages;
   }
 
   static names(packages) {
-    return packages.map(pkg => pkg.Package);
+    return Object.keys(packages);
+  }
+
+  static filter(packages, selected) {
+    return Object.entries(packages).reduce((accumulator, [packageName, pkg]) => {
+      if (selected.includes(packageName)) {
+        accumulator[packageName] = pkg;
+      }
+      return accumulator;
+    }, {});
   }
 }

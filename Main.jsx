@@ -1,7 +1,7 @@
 ReactDOM.render(
   <DPKGControlData
     key='DPKG Control Data'
-    controlFile={DPKG_CONTROL_FILE_URL}
+    controlFile={DPKG.url()}
   />,
   document.querySelector('#root')
 );

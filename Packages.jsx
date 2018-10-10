@@ -1,42 +1,84 @@
-const splitDependencies = (fieldName, fieldValue) => {
-  let value = fieldValue;
+const splitDependencies = (fieldName, fieldValue, keyPrefix, props) => {
+  let value;
   switch (fieldName) {
+    case 'Needed By':
     case 'Depends':
     value = fieldValue.map(([dependency, version]) => {
-      return (
-        <li key={dependency + version}>
-          <a href={ '#' + dependency}>{dependency}</a>
-          { ' ' + version}
+      if (props.packagesAvailable.includes(dependency)){
+        return (
+        <li key={keyPrefix + fieldName + dependency + version}>
+          <a href={ '#' + dependency} data-next={dependency} data-direction='forward' onClick={props.onPackageLink} data-available={Object.keys(props.packages).includes(dependency)}>{dependency}</a>
         </li>
-      );
+        );
+      } else {
+        return (
+          <li key={keyPrefix + fieldName + dependency + version}>
+            {dependency}
+          </li>
+        );
+      }
     });
     value = (<nav className='dependencies'><ul>{value}</ul></nav>);
     break;
+    case 'Description':
+      value = (
+        <p>
+          {fieldValue.split("\n").map((paragraph, keyPrefix) => (
+            <React.Fragment key={keyPrefix}>
+              {paragraph}
+              <br/>
+            </React.Fragment>)
+          )}
+        </p>);
+    break
+    default:
+      value = (<span>{fieldValue}</span>);
   };
   return value;
 };
 
-const dependency = (fieldName, fieldValue, keyPrefix) => (
-  <React.Fragment key={`${keyPrefix}-${fieldName}`}>
+const dependency = (fieldName, fieldValue, key, props) => (
+  <React.Fragment key={key + fieldName}>
     <dt>{fieldName}</dt>
-    <dd>{splitDependencies(fieldName, fieldValue)}</dd>
+    <dd>{splitDependencies(fieldName, fieldValue, key, props)}</dd>
   </React.Fragment>
 );
 
-const dependencies = (pkg, prefixKey) =>
-  Object.entries(pkg).map(([fieldName, fieldValue]) => {
-    if (['Status', 'Section', 'Depends'].includes(fieldName)){
-      return dependency(fieldName, fieldValue, prefixKey);
-    }
-  });
+const dependencies = (pkg, prefixKey, props) => {
+  const selectedFields = ['Section', 'Depends', 'Needed By', 'Description'];
+  return selectedFields.filter(fieldName => fieldName in pkg
+      && pkg[fieldName].length > 0).map(fieldName =>
+    dependency(fieldName, pkg[fieldName], prefixKey, props)
+  );
+};
 
 class Package extends React.Component {
   render() {
     const pkg = this.props.package;
+    const history = this.props.history;
+    let backButton;
+    if(history.includes(pkg.id)){
+      const pos = history.lastIndexOf(pkg.id);
+      if(pos != 0) {
+        const packageId = history[pos - 1];
+        const isAvailable = Object.keys(this.props.packages)
+          .includes(packageId);
+        backButton = (
+          <a
+            href={ '#' + packageId}
+            data-direction='back'
+            data-back={packageId}
+            onClick={this.props.onPackageLink} data-available={isAvailable}>
+            {'< ' + packageId}
+          </a>
+        );
+      }
+    }
     return (
-      <article key={pkg.Package} id={pkg.Package}>
-        <h3>{pkg.Package}</h3>
-        <dl>{dependencies(pkg, pkg.Package)}</dl>
+      <article key={pkg.id} id={pkg.id}>
+        <nav>{backButton}</nav>
+        <h3>{pkg.id}</h3>
+        <dl>{dependencies(pkg, pkg.id, this.props)}</dl>
       </article>
     );
   }
@@ -44,7 +86,7 @@ class Package extends React.Component {
 
 class Packages extends React.Component {
   state = {
-    packages: []
+    packages: {}
   }
 
   componentWillReceiveProps(newProps) {
@@ -54,12 +96,16 @@ class Packages extends React.Component {
   render() {
     return(
       <section className='packages'>
-        {this.state.packages.map(pkg => (
-          <Package
-            key={`Package ${pkg.Package}`}
+        {Object.entries(this.state.packages).map(([packageId, pkg]) => {
+          return (<Package
+            key={`Package ${packageId}`}
             package={pkg}
-          />
-        ))}
+            packagesAvailable={this.props.packagesAvailable}
+            history={this.props.history}
+            packages={this.state.packages}
+            onPackageLink={this.props.onPackageLink}
+          />);
+        })}
       </section>
     );
   }
