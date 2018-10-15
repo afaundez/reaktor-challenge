@@ -4,9 +4,13 @@
     <meta charset='UTF-8'>
     <title>Reaktor Challenge</title>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <link rel='stylesheet' href='styles/dpkg.css'>
-    <link rel='stylesheet' href='styles/dpkg-desktop.css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet'>
+    <link rel='stylesheet' href='components/ControlData.css'>
+    <link rel='stylesheet' href='components/Search/Search.css'>
+    <link rel='stylesheet' href='components/Search/SearchSuggestions.css'>
+    <link rel='stylesheet' href='components/Package/Packages.css'>
+    <link rel='stylesheet' href='components/Package/PackageStack.css'>
+    <link rel='stylesheet' href='components/Package/Package.css'>
   </head>
   <body>
     <main id='root'>
@@ -14,11 +18,22 @@
     <script src='https://unpkg.com/react@16/umd/react.development.js' crossorigin></script>
     <script src='https://unpkg.com/react-dom@16/umd/react-dom.development.js' crossorigin></script>
     <script src='https://unpkg.com/babel-standalone@6/babel.min.js'></script>
-    <script src='DPKG.js'></script>
-    <script src='components/Package.jsx' type='text/babel'></script>
-    <script src='components/Packages.jsx' type='text/babel'></script>
-    <script src='components/PackageSearch.jsx' type='text/babel'></script>
-    <script src='components/DPKGControlData.jsx' type='text/babel'></script>
-    <script src='components/Main.jsx' type='text/babel'></script>
+    <script src='api/DPKG.js'></script>
+    <script src='api/DPKGStore.js'></script>
+    <script src='components/Package/Field/FieldValueLine.jsx' type='text/babel'></script>
+    <script src='components/Package/Field/FieldValueMultiline.jsx' type='text/babel'></script>
+    <script src='components/Package/Field/FieldValuePackages.jsx' type='text/babel'></script>
+    <script src='components/Package/Field/FieldValue.jsx' type='text/babel'></script>
+    <script src='components/Package/Field/Field.jsx' type='text/babel'></script>
+    <script src='components/Package/PackageLink.jsx' type='text/babel'></script>
+    <script src='components/Package/PackageListElement.jsx' type='text/babel'></script>
+    <script src='components/Package/PackageList.jsx' type='text/babel'></script>
+    <script src='components/Package/Package.jsx' type='text/babel'></script>
+    <script src='components/Package/PackageStack.jsx' type='text/babel'></script>
+    <script src='components/Package/Packages.jsx' type='text/babel'></script>
+    <script src='components/Search/SearchSuggestions.jsx' type='text/babel'></script>
+    <script src='components/Search/Search.jsx' type='text/babel'></script>
+    <script src='components/ControlData.jsx' type='text/babel'></script>
+    <script src='main.js' type='text/babel'></script>
   </body>
 </html>

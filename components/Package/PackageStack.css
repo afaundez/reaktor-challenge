@@ -1,0 +1,15 @@
+.package-stack {
+  box-shadow: 5px 5px 5px 0px rgba(36, 39, 48, .05);
+  border: 1px solid rgba(0, 0, 0, .05);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  position: relative;
+}
+
+.package-stack:before{
+    content: '';
+    display: block;
+    padding-top: 100%;
+}

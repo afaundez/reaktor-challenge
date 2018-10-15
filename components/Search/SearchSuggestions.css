@@ -1,0 +1,16 @@
+.search-suggestions {
+  display: flex;
+  padding: 1rem;
+}
+
+.search-suggestions ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: center;
+}
+
+.search-suggestions ul li {
+  margin: 0 .5rem;
+  align-self: center;
+}

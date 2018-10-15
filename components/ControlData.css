@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+main {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  color: rgba(36, 39, 48, 1);
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: rgba(189, 190, 193, 1);
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgba(255, 85, 68, 1);
+}
+
+h1 {
+  padding: 1rem;
+}

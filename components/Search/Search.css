@@ -1,0 +1,36 @@
+.search {
+  border: 1px solid rgba(189, 190, 193, 1);
+}
+
+.search legend {
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search input {
+  width: 100%;
+  background-color: rgba(36, 39, 48, 1);
+  color: white;
+  border: 0;
+  border-top: 1px solid rgba(189, 190, 193, 1);
+  text-align: center;
+  font-size: large;
+}
+
+.search input:focus {
+  -webkit-outline-color: rgba(255, 85, 68, 1);
+  outline-color: rgba(255, 85, 68, 1);
+  color: rgba(255, 85, 68, 1);
+}
+
+@media only screen and (min-width: 600px) {
+  .search {
+    padding: 1rem;
+  }
+  .search input {
+    width: 60%;
+    font-size: xx-large;
+    border: 1px solid rgba(189, 190, 193, 1);
+  }
+}

@@ -1,0 +1,61 @@
+.package {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: left;
+  padding: .5rem;
+  height: 100%;
+  animation: fadein 1s;
+}
+
+.package:hover {
+  background-color: rgba(36, 39, 48, 1);
+  color: white;
+  animation: fadein 1s;
+}
+
+@keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.package h3 {
+  text-align: center;
+  padding: 1rem;
+}
+
+.package dl {
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: 30fr 70fr;
+  grid-template-rows: 1fr 1fr auto;
+}
+
+.package .field-name {
+  float: left;
+  clear: left;
+  font-weight: bold;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.package .field-value {
+  display: flex;
+  flex-direction: column;
+}
+
+.package .field-value p:first-child {
+  margin-bottom: 1rem;
+}
+
+.package .field-value nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.package .field-value nav ul li {
+  margin-right: .5rem;
+}
